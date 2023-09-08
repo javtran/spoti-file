@@ -25,3 +25,15 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.dragging  * {
+  pointer-events: none;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+.scrollbar-none::-webkit-scrollbar{
+    display: none;
+}

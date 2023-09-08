@@ -2,8 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Login from "./components/login";
+import Login from "./components/Login";
 import Profile from "./components/profile";
+import Tracks from "./components/Tracks";
 
 export default function Home() {
   const [token, setToken] = useState("");
@@ -25,13 +26,14 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col justify-center items-center h-screen bg-[#191414] font-sans text-white ">
+    <main className="h-screen bg-[#191414] font-sans text-white ">
       {!token ? (
         <Login />
       ) : (
         <div>
-          <a onClick={logout}>logout</a>
-          <Profile />
+          {/* <a onClick={logout}>logout</a>
+          <Profile /> */}
+          <Tracks />
         </div>
       )}
     </main>

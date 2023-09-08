@@ -22,22 +22,19 @@ const headers = {
   Authorization: `Bearer ${token}`,
   "Content-Type": "application/json",
 };
+console.log();
 
 export const getUser = () =>
   axios.get("https://api.spotify.com/v1/me", { headers });
 
-export const getTopTracksShort = () => {
-  axios.get("https://api.spotify.com/v1/me/top/artists?time_range=short_term", {
+export const getTopTracksShort = () =>
+  axios.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term", {
     headers,
   });
-};
+export const getTopTracksMedium = () =>
+  axios.get("https://api.spotify.com/v1/me/top/tracks", { headers });
 
-export const getTopTracksMedium = () => {
-  axios.get("https://api.spotify.com/v1/me/top/artists", { headers });
-};
-
-export const getTopTracksLong = () => {
-  axios.get("https://api.spotify.com/v1/me/top/artists?time_range=long_term", {
+export const getTopTracksLong = () =>
+  axios.get("https://api.spotify.com/v1/me/top/tracks?time_range=long_term", {
     headers,
   });
-};

@@ -1,5 +1,4 @@
 import { getUser } from "@/spotify";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const Profile = () => {
