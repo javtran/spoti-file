@@ -3,42 +3,37 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Login from "./components/login";
+import Profile from "./components/profile";
 
 export default function Home() {
-    const [token, setToken] = useState("");
-    const [searchKey, setSearchKey] = useState("");
+  const [token, setToken] = useState("");
+  const [searchKey, setSearchKey] = useState("");
 
-    const logout = () => {
-        setToken("");
-        window.localStorage.removeItem("token");
-    };
+  const logout = () => {
+    setToken("");
+    window.localStorage.removeItem("token");
+  };
 
-    const searchArtists = (e) => {
-        let header = Headers();
-        header.append("Authorization", `Bearer ${token}`);
-    };
+  const searchArtists = (e) => {
+    let header = Headers();
+    header.append("Authorization", `Bearer ${token}`);
+  };
 
-    useEffect(() => {
-        const hash = window.location.hash;
-        let token = window.localStorage.getItem("token");
+  useEffect(() => {
+    let token = window.localStorage.getItem("token");
+    setToken(token);
+  }, []);
 
-        if (!token && hash) {
-            token = hash
-                .substring(1)
-                .split("&")
-                .find((elem) => elem.startsWith("access_token"))
-                .split("=")[1];
-
-            window.location.hash = "";
-            window.localStorage.setItem("token", token);
-        }
-        setToken(token);
-        console.log(token);
-    }, []);
-
-    return (
-        <main className="flex flex-col justify-center gap-8 items-center h-screen ">
-            {!token ? <Login /> : <div></div>}
-        </main>
-    );
+  return (
+    <main className="flex flex-col justify-center items-center h-screen bg-[#191414] font-sans text-white ">
+      {!token ? (
+        <Login />
+      ) : (
+        <div>
+          <a onClick={logout}>logout</a>
+          <Profile />
+        </div>
+      )}
+    </main>
+  );
 }
