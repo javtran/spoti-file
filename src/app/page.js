@@ -27,15 +27,7 @@ export default function Home() {
 
   return (
     <main className="h-screen bg-[#191414] font-sans text-white ">
-      {!token ? (
-        <Login />
-      ) : (
-        <div>
-          {/* <a onClick={logout}>logout</a>
-          <Profile /> */}
-          <Tracks />
-        </div>
-      )}
+      {!token ? <Login /> : <Tracks />}
     </main>
   );
 }
