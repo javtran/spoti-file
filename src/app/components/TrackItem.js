@@ -2,12 +2,12 @@ const TrackItem = ({ track, setSelected, selected }) => {
   return (
     <li
       className={
-        "font-medium flex flex-col w-40 p-4 select-none cursor-pointer transform transition-all duration-200 " +
+        "font-medium flex flex-col w-32 xl:w-40 p-2 xl:p-4 select-none cursor-pointer transform transition-all duration-200 " +
         (selected == track.rank && `bg-white`)
       }
       onMouseUp={setSelected}
     >
-      <img src={track.album.images[0].url} className="w-32 h-32" />
+      <img src={track.album.images[0].url} className="w-full" />
       <p
         className={
           "text-sm mt-2 text-ellipsis overflow-hidden whitespace-nowrap " +

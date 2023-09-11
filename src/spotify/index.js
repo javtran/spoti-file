@@ -38,3 +38,9 @@ export const getTopTracksLong = () =>
   axios.get("https://api.spotify.com/v1/me/top/tracks?time_range=long_term", {
     headers,
   });
+
+export const getRecommendedTrack = (seed_track) =>
+  axios.get(
+    `https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=${seed_track}`,
+    { headers }
+  );
