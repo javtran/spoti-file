@@ -6,7 +6,7 @@ let hash;
 if (typeof window === "object") {
   token = window.localStorage.getItem("token");
   hash = window.location.hash;
-  window.location.hash = "";
+  // window.location.hash = "";
 }
 
 if (!token && hash) {
@@ -44,3 +44,8 @@ export const getRecommendedTrack = (seed_track) =>
     `https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=${seed_track}`,
     { headers }
   );
+
+export const getAudioFeature = (track_id) =>
+  axios.get(`https://api.spotify.com/v1/audio-features/${track_id}`, {
+    headers,
+  });

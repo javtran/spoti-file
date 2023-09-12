@@ -1,8 +1,9 @@
-import { getRecommendedTrack } from "@/spotify";
+import { getAudioFeature, getRecommendedTrack } from "@/spotify";
 import { useEffect, useState } from "react";
 
 const TrackDetail = ({ track }) => {
   const [recommended, setRecommended] = useState(null);
+  const [features, setFeatures] = useState(null);
 
   const fetchRecommended = async () => {
     setRecommended(null);
@@ -10,8 +11,15 @@ const TrackDetail = ({ track }) => {
     setRecommended(data.tracks);
   };
 
+  const fetchFeatures = async () => {
+    setFeatures(null);
+    const { data } = await getAudioFeature(track.id);
+    setFeatures(data);
+  };
+
   useEffect(() => {
     fetchRecommended();
+    fetchFeatures();
   }, [track]);
 
   const getDate = (string) => {
