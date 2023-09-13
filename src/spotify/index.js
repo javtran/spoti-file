@@ -1,28 +1,96 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 let token;
-let hash;
-
-if (typeof window === "object") {
-  token = window.localStorage.getItem("token");
-  hash = window.location.hash;
-  // window.location.hash = "";
-}
-
-if (!token && hash) {
-  token = hash
-    .substring(1)
-    .split("&")
-    .find((elem) => elem.startsWith("access_token"))
-    .split("=")[1];
-  window.localStorage.setItem("token", token);
-}
-
-const headers = {
-  Authorization: `Bearer ${token}`,
-  "Content-Type": "application/json",
+let headers;
+const EXPIRATION_TIME = 3600 * 1000;
+const getLocalAccessToken = () => window.localStorage.getItem("access_token");
+const getLocalRefreshToken = () => window.localStorage.getItem("refresh_token");
+const getLocalTokenTimestamp = () =>
+  window.localStorage.getItem("token_timestamp");
+const setLocalAccessToken = (token) => {
+  window.localStorage.setItem("token_timestamp", Date.now());
+  window.localStorage.setItem("access_token", token);
 };
-console.log();
+const setLocalRefreshToken = (token) => {
+  window.localStorage.setItem("refresh_token", token);
+};
+
+const setHeaders = (token) => {
+  headers = {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
+};
+
+const refreshAccessToken = (refreshToken) => {
+  axios
+    .post("http://localhost:8000/refresh", {
+      refreshToken,
+    })
+    .then((res) => {
+      setLocalAccessToken(res.data.accessToken);
+      window.location.reload();
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+};
+
+export default function getToken() {
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
+  const code = new URLSearchParams(window.location.search).get("code");
+  const localAccessToken = getLocalAccessToken();
+  const localRefreshToken = getLocalRefreshToken();
+  const localTokenTimestamp = getLocalTokenTimestamp();
+
+  useEffect(() => {
+    setHeaders(localAccessToken);
+    setAccessToken(localAccessToken);
+    setRefreshToken(localRefreshToken);
+  }, []);
+
+  useEffect(() => {
+    if (code) {
+      axios
+        .post("http://localhost:8000/token", {
+          code,
+        })
+        .then((res) => {
+          setAccessToken(res.data.accessToken);
+          setLocalAccessToken(res.data.accessToken);
+          setRefreshToken(res.data.refreshToken);
+          setLocalRefreshToken(res.data.refreshToken);
+          setHeaders(res.data.accessToken);
+
+          window.history.pushState({}, null, "/");
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+  }, [code]);
+
+  useEffect(() => {
+    if (!refreshToken) return;
+
+    if (Date.now() - localTokenTimestamp > EXPIRATION_TIME) {
+      refreshAccessToken(refreshToken);
+    } else {
+      setTimeout(() => {
+        refreshAccessToken(refreshToken);
+      }, Date.now() - localTokenTimestamp);
+    }
+    const interval = setInterval(() => {
+      refreshAccessToken(refreshToken);
+    }, EXPIRATION_TIME - 100);
+
+    return () => clearInterval(interval);
+  }, [refreshToken]);
+
+  return accessToken;
+}
 
 export const getUser = () =>
   axios.get("https://api.spotify.com/v1/me", { headers });
