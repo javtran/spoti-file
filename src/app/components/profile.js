@@ -14,7 +14,7 @@ const Profile = () => {
     user && (
       <div className="flex gap-8">
         <img
-          src={user.images[1].url}
+          src={user.images[2].url}
           alt={user.display_name + "'s display name"}
           className="w-60 h-60 object-cover rounded-full"
         />

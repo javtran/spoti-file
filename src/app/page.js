@@ -5,7 +5,7 @@ import getToken from "@/spotify";
 export default function Home() {
   const token = getToken();
   return (
-    <main className="h-screen bg-[#191414] font-sans text-white ">
+    <main className="h-screen font-sans text-white ">
       {!token ? <Login /> : <Tracks />}
     </main>
   );

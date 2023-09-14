@@ -23,6 +23,12 @@ const setHeaders = (token) => {
   };
 };
 
+export const logout = () => {
+  window.localStorage.removeItem("access_token");
+  window.localStorage.removeItem("refresh_token");
+  window.localStorage.removeItem("token_timestamp");
+  window.location.reload();
+};
 const refreshAccessToken = (refreshToken) => {
   axios
     .post("http://localhost:8000/refresh", {
@@ -80,7 +86,7 @@ export default function getToken() {
     } else {
       setTimeout(() => {
         refreshAccessToken(refreshToken);
-      }, Date.now() - localTokenTimestamp);
+      }, EXPIRATION_TIME - localTokenTimestamp);
     }
     const interval = setInterval(() => {
       refreshAccessToken(refreshToken);

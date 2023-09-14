@@ -2,6 +2,7 @@ import { getTopTracksMedium } from "@/spotify";
 import { useEffect, useState } from "react";
 import TrackItem from "./TrackItem";
 import TrackDetail from "./TrackDetail";
+import NavBar from "./NavBar";
 
 const Tracks = () => {
   const [tracks, setTracks] = useState(null);
@@ -53,6 +54,7 @@ const Tracks = () => {
 
   return (
     <div className="flex flex-col h-full">
+      <NavBar></NavBar>
       {tracks && <TrackDetail track={tracks.items[selected]}></TrackDetail>}
 
       <ul className="shrink-0 w-full grid gap-8 xl:gap-10 grid-flow-col bg-black p-2 cursor-grab overflow-y-hidden overflow-x-scroll scrollbar-none">

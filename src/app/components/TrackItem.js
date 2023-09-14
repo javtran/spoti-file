@@ -2,7 +2,7 @@ const TrackItem = ({ track, setSelected, selected }) => {
   return (
     <li
       className={
-        "font-medium flex flex-col w-32 xl:w-40 p-2 xl:p-4 select-none cursor-pointer transform transition-all duration-200 " +
+        "font-medium flex flex-col max-md:w-28 md:w-32 xl:w-40 p-2 xl:p-4 select-none cursor-pointer transform transition-all duration-200 " +
         (selected == track.rank && `bg-white`)
       }
       onMouseUp={setSelected}

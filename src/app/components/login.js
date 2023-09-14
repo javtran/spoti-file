@@ -3,7 +3,7 @@ import Link from "next/link";
 const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center h-full">
-      <h1 className="text-9xl tracking-wide font-semibold">
+      <h1 className="max-md:text-6xl text-9xl tracking-wide font-semibold">
         <span className="text-[#1DB954]">Spoti</span>-File
       </h1>
       <p className="text-xl mt-4">Learn about the songs you listen to.</p>
