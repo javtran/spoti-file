@@ -7,7 +7,7 @@ const Tracks = dynamic(() => import("./components/Tracks"), { ssr: false });
 export default function Page() {
   const token = GetToken();
   return (
-    <main className="h-screen font-sans text-white ">
+    <main className="h-full font-sans text-white">
       {!token ? <Login /> : <Tracks />}
     </main>
   );

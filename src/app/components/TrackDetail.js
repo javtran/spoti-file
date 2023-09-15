@@ -143,11 +143,11 @@ const TrackDetail = ({ track }) => {
       </div>
 
       {recommended && (
-        <div className="h-fit flex flex-col overflow-auto">
+        <div className="h-fit overflow-auto">
           <h2 className="text-xl font-medium">
             Recommended base on this song and artist
           </h2>
-          <ul className="max-md:p-2 flex flex-col gap-2 p-2">
+          <ul className=" flex flex-col lg:gap-2 mt-2">
             {recommended.map((track, i) => (
               <li key={i}>
                 <a
@@ -155,7 +155,7 @@ const TrackDetail = ({ track }) => {
                   target="_blank"
                   className="flex text-sm items-center gap-4 p-2 px-4 hover:bg-stone-800 rounded"
                 >
-                  <p>{i + 1}</p>
+                  <p className="w-4 text-center">{i + 1}</p>
                   <img src={track.album.images[2].url} className="w-12" />
                   <div className="flex-1 overflow-hidden whitespace-nowrap">
                     <p className="text-ellipsis overflow-hidden">
