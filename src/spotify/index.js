@@ -46,7 +46,7 @@ const refreshAccessToken = (refreshToken) => {
     });
 };
 
-export default function getToken() {
+export default function GetToken() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
   const code = new URLSearchParams(window.location.search).get("code");

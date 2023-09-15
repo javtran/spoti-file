@@ -13,7 +13,7 @@ const ProgressBar = ({ score, feature, i }) => {
     <div className=" flex gap-4 items-center">
       <p className="capitalize text-slate-400 text-sm w-40">{feature}</p>
       <div className="relative w-full bg-stone-800 select-none">
-        <style children={animation} />
+        <style>{animation}</style>
         <div
           className="relative p-1 bg-[#1DB954] w-0"
           style={{ animation: `show-bar-${i} 1s ${i * 0.1}s forwards` }}
