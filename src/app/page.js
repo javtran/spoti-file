@@ -1,7 +1,9 @@
 "use client";
 import GetToken from "@/spotify";
-import Login from "./components/Login";
-import Tracks from "./components/Tracks";
+import dynamic from "next/dynamic";
+
+const Login = dynamic(() => import("./components/Login"), { ssr: false });
+const Tracks = dynamic(() => import("./components/Tracks"), { ssr: false });
 export default function Page() {
   const token = GetToken();
   return (
