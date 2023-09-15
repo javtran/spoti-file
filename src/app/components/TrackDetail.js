@@ -1,9 +1,26 @@
 import { getAudioFeature, getRecommendedTrack } from "@/spotify";
 import { useEffect, useState } from "react";
+import ProgressBar from "./ProgressBar";
+
+const key_list = {
+  0: "C",
+  1: "C♯/D♭",
+  2: "D",
+  3: "D♯/E♭",
+  4: "E",
+  5: "F",
+  6: "F♯/G♭",
+  7: "G",
+  8: "G♯/A♭",
+  9: "A",
+  10: "A♯/B♭",
+  11: "B",
+};
 
 const TrackDetail = ({ track }) => {
   const [recommended, setRecommended] = useState(null);
-  const [features, setFeatures] = useState(null);
+  const [mainFeatures, setMainFeatures] = useState(null);
+  const [audioFeatures, setAudioFeatures] = useState(null);
 
   const fetchRecommended = async () => {
     setRecommended(null);
@@ -12,21 +29,24 @@ const TrackDetail = ({ track }) => {
   };
 
   const fetchFeatures = async () => {
-    setFeatures(null);
+    setMainFeatures(null);
+    setAudioFeatures(null);
     const { data } = await getAudioFeature(track.id);
-    const featureObj = {
+    setAudioFeatures({
       acousticness: data.acousticness,
       danceability: data.danceability,
       energy: data.energy,
       instrumentalness: data.instrumentalness,
       liveness: data.liveness,
-      loudness: data.loudness,
-      modality: data.modality,
-      tempo: data.tempo,
-      time_signature: data.time_signature,
+      speechiness: data.speechiness,
       valence: data.valence,
-    };
-    setFeatures(data);
+    });
+    setMainFeatures({
+      key: `${key_list[data.key]} ${data.modality ? "Major" : "Minor"}`,
+      tempo: Math.round(data.tempo),
+      loudness: `${Math.round(data.loudness)} dB`,
+      "time signature": `${data.time_signature}/4`,
+    });
   };
 
   useEffect(() => {
@@ -50,56 +70,14 @@ const TrackDetail = ({ track }) => {
   };
 
   return (
-    <div className="relative grow p-4 grid gap-4 lg:grid-cols-2 overflow-auto">
-      <div className="flex flex-col justify-end items-center gap-8 h-full">
-        <ul className="flex-1 flex flex-col order-last w-5/6">
-          <li className="flex flex-1 justify-center">
-            <span className="flex-1 border text-center">Acousticness</span>{" "}
-            <span className="flex-1 border text-center">50%</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Danceability</span>{" "}
-            <span className="flex-1 border text-center">60%</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Energy</span>{" "}
-            <span className="flex-1 border text-center">84%</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Instrumentalness</span>{" "}
-            <span className="flex-1 border text-center">6%</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Liveness</span>{" "}
-            <span className="flex-1 border text-center">8%</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Loudness</span>{" "}
-            <span className="flex-1 border text-center">-5.883 db</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Modality</span>{" "}
-            <span className="flex-1 border text-center">Minor</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Tempo</span>{" "}
-            <span className="flex-1 border text-center">100BPM</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Time Signature</span>{" "}
-            <span className="flex-1 border text-center">7/4</span>
-          </li>
-          <li className="flex flex-1">
-            <span className="flex-1 border text-center">Valence</span>{" "}
-            <span className="flex-1 border text-center">50%</span>
-          </li>
-        </ul>
+    <div className="relative grow p-4 grid gap-8 lg:grid-cols-2 overflow-auto">
+      <div className="flex flex-col gap-8 h-full">
         <div className="flex gap-8 w-full">
           <img
             src={track.album.images[1].url}
             className="max-md:h-28 max-lg:h-40 max-xl:h-56"
           />
-          <div className="flex flex-col lg:justify-end gap-2">
+          <div className="flex flex-col gap-2">
             <h1 className="max-sm:text-xl max-md:text-2xl max-lg:text-3xl max-xl:text-4xl text-5xl font-medium line-clamp-3">
               {track.name}
             </h1>
@@ -116,13 +94,41 @@ const TrackDetail = ({ track }) => {
             </p>
           </div>
         </div>
+        <ul className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4 w-full gap-4">
+          {mainFeatures &&
+            Object.keys(mainFeatures).map((feat) => (
+              <li
+                key={feat}
+                className="flex flex-col p-2 md:p-4 items-center justify-center bg-stone-800 drop-shadow-md"
+              >
+                <span className="text-xl md:text-3xl text-center">
+                  {mainFeatures[feat]}
+                </span>
+                <span className="text-slate-400 text-xs md:text-sm capitalize">
+                  {feat}
+                </span>
+              </li>
+            ))}
+        </ul>
+        <ul className="flex flex-col gap-8">
+          {mainFeatures &&
+            Object.keys(audioFeatures).map((feat, i) => (
+              <li key={feat}>
+                <ProgressBar
+                  feature={feat}
+                  score={audioFeatures[feat]}
+                  i={i}
+                ></ProgressBar>
+              </li>
+            ))}
+        </ul>
       </div>
 
-      <div className="h-fit flex flex-col overflow-auto">
-        <h2 className="text-xl font-medium">
-          Recommended base on this song and artist
-        </h2>
-        {recommended && (
+      {recommended && (
+        <div className="h-fit flex flex-col overflow-auto">
+          <h2 className="text-xl font-medium">
+            Recommended base on this song and artist
+          </h2>
           <ul className="max-md:p-2 p-6 flex flex-col gap-4">
             {recommended.map((track, i) => (
               <li className="flex text-sm items-center gap-4" key={i}>
@@ -146,8 +152,8 @@ const TrackDetail = ({ track }) => {
               </li>
             ))}
           </ul>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

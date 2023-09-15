@@ -41,7 +41,7 @@ const Tracks = () => {
   const scrollHandler = (e) => {
     if (e.deltaY > 0) component.scrollLeft += 30;
     else component.scrollLeft -= 30;
-    e.preventDefault();
+    // e.preventDefault();
   };
 
   if (component) {

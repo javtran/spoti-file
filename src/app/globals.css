@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 40, 40, 40;
-  --background-end-rgb: 0, 0, 0;
+  --background-start-rgb: #202020;
+  --background-end-rgb: #000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,9 +21,9 @@ body {
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      var(--background-end-rgb)
     )
-    rgb(var(--background-start-rgb));
+    var(--background-start-rgb);
 }
 
 .dragging  * {

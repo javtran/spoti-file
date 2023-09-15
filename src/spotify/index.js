@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-let token;
 let headers;
 const EXPIRATION_TIME = 3600 * 1000;
 const getLocalAccessToken = () => window.localStorage.getItem("access_token");

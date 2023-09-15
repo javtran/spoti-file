@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     user && (
       <div className="flex justify-end pt-4 pr-4">
-        <div className="relative select-none cursor-pointer">
+        <div className="relative select-none cursor-pointer max-md:text-sm">
           <div
             className={
               "flex gap-3 items-center px-2 py-1 hover:bg-black rounded-full transform transition-all duration-100 select-none cursor-pointer " +
@@ -32,9 +32,11 @@ const NavBar = () => {
             <img
               src={user.images[1].url}
               alt={user.display_name + "'s display name"}
-              className="w-10 h-10 object-cover rounded-full"
+              className="w-6 h-6 md:w-10 md:h-10 object-cover rounded-full"
             />
-            <span className="font-medium">{user.display_name}</span>
+            <span className="font-medium max-md:text-sm">
+              {user.display_name}
+            </span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="1em"
