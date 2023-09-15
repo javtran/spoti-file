@@ -7,10 +7,21 @@ const SERVER_URI =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:8000/"
     : "https://spoti-file-server.vercel.app/";
-const getLocalAccessToken = () => window.localStorage.getItem("access_token");
-const getLocalRefreshToken = () => window.localStorage.getItem("refresh_token");
-const getLocalTokenTimestamp = () =>
-  window.localStorage.getItem("token_timestamp");
+const getLocalAccessToken = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("access_token");
+  }
+};
+const getLocalRefreshToken = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("refresh_token");
+  }
+};
+const getLocalTokenTimestamp = () => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("token_timestamp");
+  }
+};
 const setLocalAccessToken = (token) => {
   window.localStorage.setItem("token_timestamp", Date.now());
   window.localStorage.setItem("access_token", token);
@@ -49,7 +60,8 @@ const refreshAccessToken = (refreshToken) => {
 export default function GetToken() {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
-  const code = new URLSearchParams(window.location.search).get("code");
+  const [code, setCode] = useState(null);
+  // const code = new URLSearchParams(window.location.search).get("code");
   const localAccessToken = getLocalAccessToken();
   const localRefreshToken = getLocalRefreshToken();
   const localTokenTimestamp = getLocalTokenTimestamp();
@@ -58,6 +70,7 @@ export default function GetToken() {
     setHeaders(localAccessToken);
     setAccessToken(localAccessToken);
     setRefreshToken(localRefreshToken);
+    setCode(new URLSearchParams(window.location.search).get("code"));
   }, []);
 
   useEffect(() => {
