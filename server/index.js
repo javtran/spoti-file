@@ -16,6 +16,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use("/", function (req, res) {
+  res.send("Server is running.");
+});
+
 app.get("/login", function (req, res) {
   const scope =
     "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
