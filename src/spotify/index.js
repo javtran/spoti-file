@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 
 let headers;
 const EXPIRATION_TIME = 3600 * 1000;
+const SERVER_URI =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:8000/"
+    : "https://spoti-file-server.vercel.app/";
 const getLocalAccessToken = () => window.localStorage.getItem("access_token");
 const getLocalRefreshToken = () => window.localStorage.getItem("refresh_token");
 const getLocalTokenTimestamp = () =>
@@ -30,7 +34,7 @@ export const logout = () => {
 };
 const refreshAccessToken = (refreshToken) => {
   axios
-    .post("http://localhost:8000/refresh", {
+    .post(`${SERVER_URI}refresh`, {
       refreshToken,
     })
     .then((res) => {
@@ -59,7 +63,7 @@ export default function getToken() {
   useEffect(() => {
     if (code) {
       axios
-        .post("http://localhost:8000/token", {
+        .post(`${SERVER_URI}token`, {
           code,
         })
         .then((res) => {
