@@ -4,7 +4,7 @@ const SERVER_URI =
   process.env.NODE_ENV !== "production"
     ? "http://localhost:8000/"
     : "https://spoti-file-server.vercel.app/";
-export default Login = () => {
+const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center h-full">
       <h1 className="max-md:text-6xl text-9xl tracking-wide font-semibold">
@@ -20,3 +20,5 @@ export default Login = () => {
     </div>
   );
 };
+
+export default Login;
