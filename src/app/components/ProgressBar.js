@@ -18,7 +18,7 @@ const ProgressBar = ({ score, feature, i }) => {
           className="relative p-1 bg-[#1DB954] w-0"
           style={{ animation: `show-bar-${i} 1s ${i * 0.1}s forwards` }}
         >
-          <div className="absolute right-[-4px] top-[-2px] bg-white rounded-full w-3 h-3 h-full"></div>
+          <div className="absolute right-[-4px] top-[-2px] bg-white rounded-full w-3 h-3"></div>
           <p className="absolute w-16 text-center right-[-1.75rem] bottom-[-1.5rem] text-slate-400 text-xs">
             {Number(score * 100).toFixed(2)}
           </p>

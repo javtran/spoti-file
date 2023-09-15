@@ -18,6 +18,7 @@ const key_list = {
 };
 
 const TrackDetail = ({ track }) => {
+  console.log(track);
   const [recommended, setRecommended] = useState(null);
   const [mainFeatures, setMainFeatures] = useState(null);
   const [audioFeatures, setAudioFeatures] = useState(null);
@@ -77,18 +78,35 @@ const TrackDetail = ({ track }) => {
             src={track.album.images[1].url}
             className="max-md:h-28 max-lg:h-40 max-xl:h-56"
           />
-          <div className="flex flex-col gap-2">
-            <h1 className="max-sm:text-xl max-md:text-2xl max-lg:text-3xl max-xl:text-4xl text-5xl font-medium line-clamp-3">
+          <div className="flex flex-col">
+            <a
+              href={track.external_urls.spotify}
+              target="_blank"
+              className="max-sm:text-xl max-md:text-2xl max-lg:text-3xl max-xl:text-4xl text-5xl font-medium line-clamp-3 pb-[0.2em] hover:underline"
+            >
               {track.name}
-            </h1>
+            </a>
             <p className="text-slate-400">
               {track.artists.map((artist, i) => (
-                <span key={i}>
+                <a
+                  key={i}
+                  href={artist.external_urls.spotify}
+                  target="_blank"
+                  className="hover:underline"
+                >
                   {artist.name}
                   {track.artists.length - 1 != i && ", "}
-                </span>
+                </a>
               ))}
-              &nbsp;• {track.album.name} •&nbsp;
+              &nbsp;•{" "}
+              <a
+                href={track.album.external_urls.spotify}
+                target="_blank"
+                className="hover:underline"
+              >
+                {track.album.name}
+              </a>{" "}
+              •&nbsp;
               {getDate(track.album.release_date).getFullYear()}
               &nbsp;• {getTime(track.duration_ms)[0]}
             </p>
@@ -129,26 +147,34 @@ const TrackDetail = ({ track }) => {
           <h2 className="text-xl font-medium">
             Recommended base on this song and artist
           </h2>
-          <ul className="max-md:p-2 p-6 flex flex-col gap-4">
+          <ul className="max-md:p-2 flex flex-col gap-2 p-2">
             {recommended.map((track, i) => (
-              <li className="flex text-sm items-center gap-4" key={i}>
-                <p>{i + 1}</p>
-                <img src={track.album.images[2].url} className="w-12" />
-                <div className="flex-1 overflow-hidden whitespace-nowrap">
-                  <p className="text-ellipsis overflow-hidden">{track.name}</p>
-                  <p className="text-slate-400 text-ellipsis overflow-hidden">
-                    {track.artists.map((artist, i) => (
-                      <span key={i}>
-                        {artist.name}
-                        {track.artists.length - 1 != i && ", "}
-                      </span>
-                    ))}
+              <li key={i}>
+                <a
+                  href={track.external_urls.spotify}
+                  target="_blank"
+                  className="flex text-sm items-center gap-4 p-2 px-4 hover:bg-stone-800 rounded"
+                >
+                  <p>{i + 1}</p>
+                  <img src={track.album.images[2].url} className="w-12" />
+                  <div className="flex-1 overflow-hidden whitespace-nowrap">
+                    <p className="text-ellipsis overflow-hidden">
+                      {track.name}
+                    </p>
+                    <p className="text-slate-400 text-ellipsis overflow-hidden">
+                      {track.artists.map((artist, i) => (
+                        <span key={i}>
+                          {artist.name}
+                          {track.artists.length - 1 != i && ", "}
+                        </span>
+                      ))}
+                    </p>
+                  </div>
+                  <p className="flex-1 text-ellipsis overflow-hidden whitespace-nowrap max-xl:hidden">
+                    {track.album.name}
                   </p>
-                </div>
-                <p className="flex-1 text-ellipsis overflow-hidden whitespace-nowrap max-xl:hidden">
-                  {track.album.name}
-                </p>
-                <p>{getTime(track.duration_ms)[1]}</p>
+                  <p>{getTime(track.duration_ms)[1]}</p>
+                </a>
               </li>
             ))}
           </ul>
