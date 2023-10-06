@@ -1,31 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Spoti-File
+> A web app for visualizing personalized Spotify data
 
-First, run the development server:
+Built with a bunch of things, but to name a few:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
+- [Create React App](https://github.com/facebook/create-react-app)
+- [Express](https://expressjs.com/)
+- [TailWind](https://tailwindcss.com/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. [Register a Spotify App](https://developer.spotify.com/dashboard/applications)
+1. Create an `.env` file in the root of the project based on `.env.example`
+1. `npm i`
+1. `npm run dev`
 
 ## Deploy on Vercel
 
