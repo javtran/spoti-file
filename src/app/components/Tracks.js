@@ -18,7 +18,7 @@ const Tracks = () => {
     fetchTracks();
   }, []);
 
-  const component = document.querySelector(".grid");
+  const component = document.querySelector("#scrollbar");
   let mx = 0;
 
   const mousemoveHandler = (e) => {
@@ -44,12 +44,29 @@ const Tracks = () => {
     // e.preventDefault();
   };
 
-  if (component) {
+  const rightHandler = (e) => {
+    let x = component.clientWidth / 2 + component.scrollLeft + 0;
+    component.scroll({
+      left: x,
+      behavior: "smooth",
+    });
+  };
+
+  const leftHandler = (e) => {
+    let x = component.clientWidth / 2 - component.scrollLeft + 0;
+    component.scroll({
+      left: -x,
+      behavior: "smooth",
+    });
+  };
+
+  if (component && !component.hasAttribute("load")) {
     component.addEventListener("mousemove", mousemoveHandler);
     component.addEventListener("mousedown", mousedownHandler);
     component.addEventListener("mouseup", mouseupHandler);
     component.addEventListener("leave", mouseupHandler);
     component.addEventListener("wheel", scrollHandler);
+    component.setAttribute("load", true);
   }
 
   return (
@@ -57,21 +74,44 @@ const Tracks = () => {
       <NavBar></NavBar>
       {tracks && <TrackDetail track={tracks.items[selected]}></TrackDetail>}
 
-      <ul className="shrink-0 w-full grid gap-8 xl:gap-10 grid-flow-col bg-black p-2 cursor-grab overflow-y-hidden overflow-x-scroll scrollbar-none">
-        {tracks &&
-          tracks.items.map((track, i) => (
-            <TrackItem
-              track={{ ...track, rank: i }}
-              key={i}
-              setSelected={(e) => {
-                if (e.pageX == downx) {
-                  setSelected(i);
-                }
-              }}
-              selected={selected}
-            />
-          ))}
-      </ul>
+      <div className="bg-black">
+        {tracks && (
+          <div className="p-2 pr-4 pb-0 flex justify-between items-center select-none">
+            <span className="text-xl font-medium">Top Tracks</span>
+            <div className="flex gap-8">
+              <img
+                src="leftarrow.png"
+                className="invert h-4 cursor-pointer"
+                onClick={leftHandler}
+              />
+              <img
+                src="rightarrow.png"
+                className="invert h-4 cursor-pointer"
+                onClick={rightHandler}
+              />
+            </div>
+          </div>
+        )}
+
+        <ul
+          className="grid gap-8 xl:gap-10 grid-flow-col p-2 cursor-grab overflow-y-hidden overflow-x-scroll scrollbar-none"
+          id="scrollbar"
+        >
+          {tracks &&
+            tracks.items.map((track, i) => (
+              <TrackItem
+                track={{ ...track, rank: i }}
+                key={i}
+                setSelected={(e) => {
+                  if (e.pageX == downx) {
+                    setSelected(i);
+                  }
+                }}
+                selected={selected}
+              />
+            ))}
+        </ul>
+      </div>
     </div>
   );
 };

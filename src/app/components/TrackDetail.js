@@ -18,7 +18,7 @@ const key_list = {
 };
 
 const TrackDetail = ({ track }) => {
-  console.log(track);
+  // console.log(track);
   const [recommended, setRecommended] = useState(null);
   const [mainFeatures, setMainFeatures] = useState(null);
   const [audioFeatures, setAudioFeatures] = useState(null);

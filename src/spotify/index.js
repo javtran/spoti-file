@@ -96,13 +96,12 @@ export default function GetToken() {
 
   useEffect(() => {
     if (!refreshToken) return;
-
     if (Date.now() - localTokenTimestamp > EXPIRATION_TIME) {
       refreshAccessToken(refreshToken);
     } else {
       setTimeout(() => {
         refreshAccessToken(refreshToken);
-      }, EXPIRATION_TIME - localTokenTimestamp);
+      }, EXPIRATION_TIME - (Date.now() - localTokenTimestamp));
     }
     const interval = setInterval(() => {
       refreshAccessToken(refreshToken);
