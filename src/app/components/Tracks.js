@@ -36,6 +36,7 @@ const Tracks = () => {
 
   const mouseupHandler = () => {
     mx = 0;
+    console.log("up");
   };
 
   const scrollHandler = (e) => {
@@ -64,7 +65,7 @@ const Tracks = () => {
     component.addEventListener("mousemove", mousemoveHandler);
     component.addEventListener("mousedown", mousedownHandler);
     component.addEventListener("mouseup", mouseupHandler);
-    component.addEventListener("leave", mouseupHandler);
+    component.addEventListener("mouseleave", mouseupHandler);
     component.addEventListener("wheel", scrollHandler);
     component.setAttribute("load", true);
   }
